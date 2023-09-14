@@ -1,0 +1,164 @@
+@precedence {
+  compare @left
+  contains @left
+  logic @right
+  assign @left
+}
+
+@top Template { element* }
+
+element { Text | Interpolation | directive }
+
+directive {
+  Tag |
+  IfDirective { kwTag1<"if"> element* kwTagEnd<"endif"> } |
+  kwTag1<"elsif"> |
+  kwTag<"else"> |
+  UnlessDirective { kwTag1<"unless"> element* kwTagEnd<"endunless"> } |
+  CaseDirective { kwTag1<"case"> element* kwTagEnd<"endcase"> } |
+  kwTagN<"when"> |
+  ForDirective { forTag element* kwTagEnd<"endfor"> } |
+  TableDirective { tablerowTag element* kwTagEnd<"endtablerow"> } |
+  kwTag<"break"> |
+  kwTag<"continue"> |
+  cycleTag |
+  Comment { kwTag<"comment"> CommentText endcommentTag } |
+  RawDirective { kwTag<"raw"> RawText endrawTag } |
+  echoTag |
+  renderTag |
+  kwTag1<"include"> |
+  kwTag1<"assign"> | 
+  CaptureDirective { kwTag1<"capture"> element* kwTagEnd<"endcapture"> } |
+  kwTag1<"increment"> |
+  kwTag1<"decrement"> |
+  liquidTag
+}
+
+@skip { space | InlineComment } {
+  Filter { "|" FilterName { identifier } (":" expression)? }
+
+  VariableName { identifier }
+  
+  expression {
+    VariableName |
+    MemberExpression { expression "." PropertyName } |
+    BinaryExpression {
+      expression !contains kw<"contains"> expression |
+      expression !compare CompareOp expression |
+      expression !logic @specialize[@name=LogicOp]<identifier, "or" | "and"> expression
+    } |
+    AssignmentExpression { VariableName !assign AssignOp expression } |
+    RangeExpression { "(" expression ".." expression ")" } |
+    @specialize[@name=BooleanLiteral]<identifier, "true" | "false"> |
+    kw<"empty"> | kw<"forloop"> | kw<"tablerowloop"> | kw<"continue"> |
+    StringLiteral |
+    NumberLiteral
+  }
+
+  Interpolation { interpolationStart expression (Filter*) interpolationEnd }
+
+  Tag { tagStart (TagName expression?)? tagEnd }
+
+  forTag[@name=Tag] { tagStart tagName<"for"> VariableName kw<"in"> expression Parameter* tagEnd }
+  tablerowTag[@name=Tag] { tagStart tagName<"tablerow"> VariableName kw<"in"> expression Parameter* tagEnd }
+
+  cycleTag[@name=Tag] { tagStart tagName<"cycle"> (StringLiteral ":")? StringLiteral ("," StringLiteral)* tagEnd }
+
+  echoTag[@name=Tag] { tagStart tagName<"echo"> expression (Filter*) tagEnd }
+  
+  renderTag[@name=Tag] { tagStart tagName<"render"> expression RenderParameter* tagEnd }
+
+  liquidTag[@name=Tag] { tagStart tagName<"liquid"> liquidDirective* tagEnd }
+
+  Parameter { ParameterName { identifier } (":" expression)? }
+
+  endcommentTag[@name=EndTag] { endcommentTagStart tagName<"endcomment"> tagEnd }
+
+  endrawTag[@name=EndTag] { endrawTagStart tagName<"endraw"> tagEnd }
+
+  RenderParameter { "," VariableName ":" expression | (kw<"with"> | kw<"for">) expression (kw<"as"> VariableName)? }
+
+  kw<word> { @specialize[@name={word}]<identifier, word> }
+  tagName<word> { @specialize[@name={word}]<TagName, word> }
+  kwTag[@name=Tag]<word> { tagStart tagName<word> tagEnd }
+  kwTag1[@name=Tag]<word> { tagStart tagName<word> expression tagEnd }
+  kwTagN[@name=Tag]<word> { tagStart tagName<word> expression ("," expression)* tagEnd }
+  kwTagEnd[@name=EndTag]<word> { endTagStart tagName<word> tagEnd }
+
+  liquidDirective {
+    IfDirective { kwStat1<"if"> liquidDirective* kwStatEnd<"endif"> } |
+    UnlessDirective { kwStat1<"unless"> liquidDirective* kwStatEnd<"endunless"> } |
+    kwStat1<"elsif"> |
+    kwStat<"else"> |
+    CaseDirective { kwStat1<"case"> liquidDirective* kwStatEnd<"endcase"> } |
+    kwStatN<"when"> |
+    ForDirective { forStat liquidDirective* kwStatEnd<"endfor"> } |
+    TableDirective { tablerowStat liquidDirective* kwStatEnd<"endtablerow"> } |
+    kwStat<"break"> |
+    kwStat<"continue"> |
+    Tag { kw<"cycle"> (StringLiteral ":")? StringLiteral ("," StringLiteral)* } |
+    Tag { kw<"echo"> expression (Filter*) } |
+    Tag { kw<"render"> expression RenderParameter { "," VariableName ":" expression }* } |
+    kwStat1<"include"> |
+    kwStat1<"assign"> | 
+    CaptureDirective { kwStat1<"capture"> liquidDirective* kwStatEnd<"endcapture"> } |
+    kwStat1<"increment"> |
+    kwStat1<"decrement">
+  }
+
+  forStat[@name=Tag] { kw<"for"> VariableName kw<"in"> expression Parameter* }
+  tablerowStat[@name=Tag] { kw<"tablerow"> VariableName kw<"in"> expression Parameter* }
+
+  kwStat[@name=Tag]<word> { kw<word> }
+  kwStat1[@name=Tag]<word> { kw<word> expression }
+  kwStatN[@name=Tag]<word> { kw<word> expression ("," expression)* }
+  kwStatEnd[@name=EndTag]<word> { kw<word> }
+}
+
+@external tokens base from "./tokens" {
+  interpolationStart[@name="{{", closedBy="}}"]
+  tagStart[@name="{%", closedBy="%}"]
+  endTagStart[@name="{%", closedBy="%}"]
+  Text // FIXME split by line?
+}
+
+@external tokens raw from "./tokens" {
+  endrawTagStart[@name="{%", closedBy="%}"]
+  RawText
+}
+
+@external tokens comment from "./tokens" {
+  endcommentTagStart[@name="{%", closedBy="%}"]
+  CommentText
+}
+
+@tokens {
+  letter { @asciiLetter | "_" | $[\u00C0-\u{EFFFF}] }
+  identifier { letter (letter | @digit)* }
+  PropertyName { identifier }
+  TagName { identifier }
+
+  StringLiteral {
+    '"' !["\n]* '"' | "'" !['\n]* "'"
+  }
+
+  NumberLiteral {
+    ("+" | "-")?
+    (@digit+ ("." @digit+)? | "." @digit+)
+    (("e" | "E") ("+" | "-")? @digit+)?
+  }
+
+  space { (" " | "\t" | "\r" | "\n")+ }
+
+  InlineComment { "#" ![\n]* }
+
+  interpolationEnd[@name="}}", openedBy="{{"] { "}}" }
+  tagEnd[@name="%}", openedBy="{%"] { "-"? "%}" }
+
+  CompareOp { "!=" | "==" | $[<>] "="? }
+  AssignOp { "=" }
+
+  "(" ")" ".." ":" "," "." "|"
+}
+
+@detectDelim
