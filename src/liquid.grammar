@@ -9,6 +9,8 @@
 
 element { Text | Interpolation | directive }
 
+Text { text+ }
+
 directive {
   Tag |
   IfDirective { kwTag1<"if"> element* kwTagEnd<"endif"> } |
@@ -22,8 +24,8 @@ directive {
   kwTag<"break"> |
   kwTag<"continue"> |
   cycleTag |
-  Comment { kwTag<"comment"> CommentText endcommentTag } |
-  RawDirective { kwTag<"raw"> RawText endrawTag } |
+  Comment { kwTag<"comment"> CommentText { commentText+ } endcommentTag } |
+  RawDirective { kwTag<"raw"> RawText { rawText+ } endrawTag } |
   echoTag |
   renderTag |
   kwTag1<"include"> |
@@ -119,17 +121,17 @@ directive {
   interpolationStart[@name="{{", closedBy="}}"]
   tagStart[@name="{%", closedBy="%}"]
   endTagStart[@name="{%", closedBy="%}"]
-  Text // FIXME split by line?
+  text
 }
 
 @external tokens raw from "./tokens" {
   endrawTagStart[@name="{%", closedBy="%}"]
-  RawText
+  rawText
 }
 
 @external tokens comment from "./tokens" {
   endcommentTagStart[@name="{%", closedBy="%}"]
-  CommentText
+  commentText
 }
 
 @tokens {

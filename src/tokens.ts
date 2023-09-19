@@ -1,6 +1,6 @@
 import {ExternalTokenizer} from "@lezer/lr"
-import {interpolationStart, tagStart, endTagStart, Text,
-        CommentText, endcommentTagStart, RawText, endrawTagStart} from "./liquid.grammar.terms"
+import {interpolationStart, tagStart, endTagStart, text,
+        commentText, endcommentTagStart, rawText, endrawTagStart} from "./liquid.grammar.terms"
 
 const enum Ch {
   BraceL = 123, Percent = 37, Dash = 45, Hash = 35,
@@ -48,8 +48,9 @@ export const base = new ExternalTokenizer(input => {
       }
     }
     input.advance()
+    if (next == Ch.Newline) break
   }
-  if (input.pos > start) input.acceptToken(Text)
+  if (input.pos > start) input.acceptToken(text)
 })
 
 function rawTokenizer(endTag: string, text: number, tagStart: number) {
@@ -78,11 +79,12 @@ function rawTokenizer(endTag: string, text: number, tagStart: number) {
         break
       }
       input.advance()
+      if (next == Ch.Newline) break
     }
     if (input.pos > start) input.acceptToken(text)
   })
 }
 
-export const comment = rawTokenizer("endcomment", CommentText, endcommentTagStart)
+export const comment = rawTokenizer("endcomment", commentText, endcommentTagStart)
 
-export const raw = rawTokenizer("endraw", RawText, endrawTagStart)
+export const raw = rawTokenizer("endraw", rawText, endrawTagStart)
