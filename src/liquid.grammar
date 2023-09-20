@@ -3,13 +3,14 @@
   contains @left
   logic @right
   assign @left
+  eager
 }
 
 @top Template { element* }
 
 element { Text | Interpolation | directive }
 
-Text { text+ }
+Text { (!eager text)+ }
 
 directive {
   Tag |
@@ -41,7 +42,7 @@ directive {
 
   VariableName { identifier }
   
-  expression {
+  expression[@isGroup=Expression] {
     VariableName |
     MemberExpression { expression "." PropertyName } |
     BinaryExpression {
