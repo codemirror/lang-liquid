@@ -24,22 +24,48 @@ to communication around the project.
 
 <dl>
 <dt id="user-content-liquid">
-  <code><strong><a href="#user-content-liquid">liquid</a></strong>(<a id="user-content-liquid^config" href="#user-content-liquid^config">config</a>&#8288;?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a> = {}) → <a href="https://codemirror.net/docs/ref#language.LanguageSupport">LanguageSupport</a></code></dt>
+  <code><strong><a href="#user-content-liquid">liquid</a></strong>(<a id="user-content-liquid^config" href="#user-content-liquid^config">config</a>&#8288;?: <a href="#user-content-liquidcompletionconfig">LiquidCompletionConfig</a> &amp; <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a> = {}) → <a href="https://codemirror.net/docs/ref#language.LanguageSupport">LanguageSupport</a></code></dt>
 
 <dd><p>Liquid template support.</p>
-<dl><dt id="user-content-liquid^config">
-  <code><strong><a href="#user-content-liquid^config">config</a></strong></code></dt>
-
-<dd><dl><dt id="user-content-liquid^config.base">
-  <code><strong><a href="#user-content-liquid^config.base">base</a></strong>&#8288;?: <a href="https://codemirror.net/docs/ref#language.LanguageSupport">LanguageSupport</a></code></dt>
-
-<dd><p>Provide an HTML language configuration to use as a base. <em>Must</em>
-be the result of calling <code>html()</code> from <code>@codemirror/lang-html</code>,
-not just any <code>LanguageSupport</code> object.</p>
-</dd></dl></dd></dl></dd>
+</dd>
 <dt id="user-content-liquidlanguage">
   <code><strong><a href="#user-content-liquidlanguage">liquidLanguage</a></strong>: <a href="https://codemirror.net/docs/ref#language.LRLanguage">LRLanguage</a></code></dt>
 
 <dd><p>A language provider for Liquid templates.</p>
+</dd>
+<dt id="user-content-liquidcompletionconfig">
+  <h4>
+    <code>type</code>
+    <a href="#user-content-liquidcompletionconfig">LiquidCompletionConfig</a></h4>
+</dt>
+
+<dd><p>Configuration options to
+<a href="#user-content-liquidcompletionsource"><code>liquidCompletionSource</code></a>.</p>
+<dl><dt id="user-content-liquidcompletionconfig.tags">
+  <code><strong><a href="#user-content-liquidcompletionconfig.tags">tags</a></strong>&#8288;?: readonly <a href="https://codemirror.net/docs/ref#autocomplete.Completion">Completion</a>[]</code></dt>
+
+<dd><p>Adds additional completions when completing a Liquid tag.</p>
+</dd><dt id="user-content-liquidcompletionconfig.filters">
+  <code><strong><a href="#user-content-liquidcompletionconfig.filters">filters</a></strong>&#8288;?: readonly <a href="https://codemirror.net/docs/ref#autocomplete.Completion">Completion</a>[]</code></dt>
+
+<dd><p>Add additional filter completions.</p>
+</dd><dt id="user-content-liquidcompletionconfig.variables">
+  <code><strong><a href="#user-content-liquidcompletionconfig.variables">variables</a></strong>&#8288;?: readonly <a href="https://codemirror.net/docs/ref#autocomplete.Completion">Completion</a>[]</code></dt>
+
+<dd><p>Add variable completions.</p>
+</dd><dt id="user-content-liquidcompletionconfig.properties">
+  <code><strong><a href="#user-content-liquidcompletionconfig.properties">properties</a></strong>&#8288;?: fn(<a id="user-content-liquidcompletionconfig.properties^path" href="#user-content-liquidcompletionconfig.properties^path">path</a>: readonly <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>[], <a id="user-content-liquidcompletionconfig.properties^state" href="#user-content-liquidcompletionconfig.properties^state">state</a>: <a href="https://codemirror.net/docs/ref#state.EditorState">EditorState</a>) → readonly <a href="https://codemirror.net/docs/ref#autocomplete.Completion">Completion</a>[]</code></dt>
+
+<dd><p>Provides completions for properties completed under the given
+path. For example, when completing <code>user.address.</code>, <code>path</code> will
+be <code>[&quot;user&quot;, &quot;address&quot;]</code>.</p>
+</dd></dl>
+
+</dd>
+<dt id="user-content-liquidcompletionsource">
+  <code><strong><a href="#user-content-liquidcompletionsource">liquidCompletionSource</a></strong>(<a id="user-content-liquidcompletionsource^config" href="#user-content-liquidcompletionsource^config">config</a>&#8288;?: <a href="#user-content-liquidcompletionconfig">LiquidCompletionConfig</a> = {}) → fn(<a id="user-content-liquidcompletionsource^returns^context" href="#user-content-liquidcompletionsource^returns^context">context</a>: <a href="https://codemirror.net/docs/ref#autocomplete.CompletionContext">CompletionContext</a>) → <a href="https://codemirror.net/docs/ref#autocomplete.CompletionResult">CompletionResult</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null">null</a></code></dt>
+
+<dd><p>Returns a completion source for liquid templates. Optionally takes
+a configuration that adds additional custom completions.</p>
 </dd>
 </dl>

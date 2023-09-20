@@ -4,6 +4,8 @@ import {html} from "@codemirror/lang-html"
 import {styleTags, tags as t} from "@lezer/highlight"
 import {parseMixed} from "@lezer/common"
 import {parser} from "./liquid.grammar"
+import {liquidCompletionSource, LiquidCompletionConfig} from "./complete"
+export {liquidCompletionSource, LiquidCompletionConfig}
 
 function directiveIndent(except: RegExp) {
   return (context: TreeIndentContext) => {
@@ -77,13 +79,12 @@ function makeLiquid(base: LRLanguage) {
 export const liquidLanguage = makeLiquid(baseHTML.language as LRLanguage)
 
 /// Liquid template support.
-export function liquid(config: {
+export function liquid(config: LiquidCompletionConfig & {
   /// Provide an HTML language configuration to use as a base. _Must_
   /// be the result of calling `html()` from `@codemirror/lang-html`,
   /// not just any `LanguageSupport` object.
   base?: LanguageSupport
 } = {}) {
-  // FIXME completion
   let base = baseHTML
   if (config.base) {
     if (config.base.language.name != "html" || !(config.base.language instanceof LRLanguage))
@@ -93,6 +94,7 @@ export function liquid(config: {
   let lang = base.language == baseHTML.language ? liquidLanguage : makeLiquid(base.language as LRLanguage)
   return new LanguageSupport(lang, [
     base.support,
+    lang.data.of({autocomplete: liquidCompletionSource(config)}),
     base.language.data.of({closeBrackets: {brackets: ["{"]}})
   ])
 }

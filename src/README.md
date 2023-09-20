@@ -25,3 +25,7 @@ to communication around the project.
 @liquid
 
 @liquidLanguage
+
+@LiquidCompletionConfig
+
+@liquidCompletionSource
