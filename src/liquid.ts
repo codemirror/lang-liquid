@@ -80,9 +80,7 @@ export const liquidLanguage = makeLiquid(baseHTML.language)
 
 /// Liquid template support.
 export function liquid(config: LiquidCompletionConfig & {
-  /// Provide an HTML language configuration to use as a base. _Must_
-  /// be the result of calling `html()` from `@codemirror/lang-html`,
-  /// not just any `LanguageSupport` object.
+  /// Provide an HTML language configuration to use as a base.
   base?: LanguageSupport
 } = {}) {
   let base = config.base || baseHTML
