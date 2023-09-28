@@ -1,4 +1,4 @@
-import {LRLanguage, LanguageSupport, foldNodeProp,
+import {Language, LRLanguage, LanguageSupport, foldNodeProp,
         indentNodeProp, delimitedIndent, TreeIndentContext} from "@codemirror/language"
 import {html} from "@codemirror/lang-html"
 import {styleTags, tags as t} from "@lezer/highlight"
@@ -14,7 +14,7 @@ function directiveIndent(except: RegExp) {
   }
 }
 
-const baseLanguage = LRLanguage.define({
+const tagLanguage = LRLanguage.define({
   name: "liquid",
   parser: parser.configure({
     props: [
@@ -66,8 +66,8 @@ const baseLanguage = LRLanguage.define({
 
 const baseHTML = html()
 
-function makeLiquid(base: LRLanguage) {
-  return baseLanguage.configure({
+function makeLiquid(base: Language) {
+  return tagLanguage.configure({
     wrap: parseMixed(node => node.type.isTop ? {
       parser: base.parser,
       overlay: n => n.name == "Text" || n.name == "RawText"
@@ -76,7 +76,7 @@ function makeLiquid(base: LRLanguage) {
 }
 
 /// A language provider for Liquid templates.
-export const liquidLanguage = makeLiquid(baseHTML.language as LRLanguage)
+export const liquidLanguage = makeLiquid(baseHTML.language)
 
 /// Liquid template support.
 export function liquid(config: LiquidCompletionConfig & {
@@ -85,13 +85,8 @@ export function liquid(config: LiquidCompletionConfig & {
   /// not just any `LanguageSupport` object.
   base?: LanguageSupport
 } = {}) {
-  let base = baseHTML
-  if (config.base) {
-    if (config.base.language.name != "html" || !(config.base.language instanceof LRLanguage))
-      throw new RangeError("The base option must be the result of calling html(...)")
-    base = config.base
-  }
-  let lang = base.language == baseHTML.language ? liquidLanguage : makeLiquid(base.language as LRLanguage)
+  let base = config.base || baseHTML
+  let lang = base.language == baseHTML.language ? liquidLanguage : makeLiquid(base.language)
   return new LanguageSupport(lang, [
     base.support,
     lang.data.of({autocomplete: liquidCompletionSource(config)}),
