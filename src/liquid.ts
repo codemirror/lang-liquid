@@ -5,7 +5,7 @@ import {styleTags, tags as t} from "@lezer/highlight"
 import {parseMixed} from "@lezer/common"
 import {parser} from "./liquid.grammar"
 import {liquidCompletionSource, LiquidCompletionConfig} from "./complete"
-export {liquidCompletionSource, LiquidCompletionConfig}
+export {parser as liquidParser, liquidCompletionSource, LiquidCompletionConfig}
 
 function directiveIndent(except: RegExp) {
   return (context: TreeIndentContext) => {
