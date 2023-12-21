@@ -64,10 +64,10 @@ export type LiquidCompletionConfig = {
   /// Provides completions for properties completed under the given
   /// path. For example, when completing `user.address.`, `path` will
   /// be `["user", "address"]`.
-  properties?: (path: readonly string[], state: EditorState) => readonly Completion[]
+  properties?: (path: readonly string[], state: EditorState, context: CompletionContext) => readonly Completion[]
 }
 
-function resolveProperties(state: EditorState, node: SyntaxNode,
+function resolveProperties(state: EditorState, node: SyntaxNode, context: CompletionContext,
                            properties?: (path: readonly string[], state: EditorState) => readonly Completion[]) {
   let path = []
   for (;;) {
@@ -88,7 +88,7 @@ function resolveProperties(state: EditorState, node: SyntaxNode,
       return []
     }
   }
-  return properties ? properties(path, state) : []
+  return properties ? properties(path, state, context) : []
 }
 
 /// Returns a completion source for liquid templates. Optionally takes
@@ -106,7 +106,7 @@ export function liquidCompletionSource(config: LiquidCompletionConfig = {}) {
     if (cx.type == "filter") options = filters
     else if (cx.type == "tag") options = tags
     else if (cx.type == "expression") options = exprs
-    else /* property */ options = resolveProperties(context.state, cx.target!, properties)
+    else /* property */ options = resolveProperties(context.state, cx.target!, context, properties)
     return options.length ? {options, from, validFor: /^[\w\u00c0-\uffff]*$/} : null
   }
 }
