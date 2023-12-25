@@ -68,7 +68,7 @@ export type LiquidCompletionConfig = {
 }
 
 function resolveProperties(state: EditorState, node: SyntaxNode, context: CompletionContext,
-                           properties?: (path: readonly string[], state: EditorState) => readonly Completion[]) {
+                           properties?: (path: readonly string[], state: EditorState, context: CompletionContext) => readonly Completion[]) {
   let path = []
   for (;;) {
     let obj = node.getChild("Expression")
