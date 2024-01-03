@@ -1,3 +1,9 @@
+## 6.2.0 (2024-01-03)
+
+### New features
+
+The `closePercentBrace` extension (included in the default language support) will double percent signs typed between braces.
+
 ## 6.1.0 (2023-12-22)
 
 ### New features
