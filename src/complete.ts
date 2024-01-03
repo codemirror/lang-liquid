@@ -1,4 +1,5 @@
-import {EditorState} from "@codemirror/state"
+import {EditorState, EditorSelection} from "@codemirror/state"
+import {EditorView} from "@codemirror/view"
 import {syntaxTree} from "@codemirror/language"
 import {CompletionContext, CompletionResult, Completion} from "@codemirror/autocomplete"
 import {SyntaxNode} from "@lezer/common"
@@ -110,3 +111,19 @@ export function liquidCompletionSource(config: LiquidCompletionConfig = {}) {
     return options.length ? {options, from, validFor: /^[\w\u00c0-\uffff]*$/} : null
   }
 }
+
+/// This extension will, when the user types a `%` between two
+/// matching braces, insert two percent signs instead and put the
+/// cursor between them.
+export const closePercentBrace = EditorView.inputHandler.of((view, from, to, text) => {
+  if (text != "%" || from != to || view.state.doc.sliceString(from - 1, to + 1) != "{}")
+    return false
+  view.dispatch(view.state.changeByRange(range => ({
+    changes: {from: range.from, to: range.to, insert: "%%"},
+    range: EditorSelection.cursor(range.from + 1)
+  })), {
+    scrollIntoView: true,
+    userEvent: "input.type"
+  })
+  return true
+})

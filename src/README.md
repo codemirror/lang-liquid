@@ -29,3 +29,5 @@ to communication around the project.
 @LiquidCompletionConfig
 
 @liquidCompletionSource
+
+@closePercentBrace

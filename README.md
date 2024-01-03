@@ -54,7 +54,7 @@ to communication around the project.
 
 <dd><p>Add variable completions.</p>
 </dd><dt id="user-content-liquidcompletionconfig.properties">
-  <code><strong><a href="#user-content-liquidcompletionconfig.properties">properties</a></strong>&#8288;?: fn(<a id="user-content-liquidcompletionconfig.properties^path" href="#user-content-liquidcompletionconfig.properties^path">path</a>: readonly <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>[], <a id="user-content-liquidcompletionconfig.properties^state" href="#user-content-liquidcompletionconfig.properties^state">state</a>: <a href="https://codemirror.net/docs/ref#state.EditorState">EditorState</a>) → readonly <a href="https://codemirror.net/docs/ref#autocomplete.Completion">Completion</a>[]</code></dt>
+  <code><strong><a href="#user-content-liquidcompletionconfig.properties">properties</a></strong>&#8288;?: fn(<a id="user-content-liquidcompletionconfig.properties^path" href="#user-content-liquidcompletionconfig.properties^path">path</a>: readonly <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>[], <a id="user-content-liquidcompletionconfig.properties^state" href="#user-content-liquidcompletionconfig.properties^state">state</a>: <a href="https://codemirror.net/docs/ref#state.EditorState">EditorState</a>, <a id="user-content-liquidcompletionconfig.properties^context" href="#user-content-liquidcompletionconfig.properties^context">context</a>: <a href="https://codemirror.net/docs/ref#autocomplete.CompletionContext">CompletionContext</a>) → readonly <a href="https://codemirror.net/docs/ref#autocomplete.Completion">Completion</a>[]</code></dt>
 
 <dd><p>Provides completions for properties completed under the given
 path. For example, when completing <code>user.address.</code>, <code>path</code> will
@@ -67,5 +67,12 @@ be <code>[&quot;user&quot;, &quot;address&quot;]</code>.</p>
 
 <dd><p>Returns a completion source for liquid templates. Optionally takes
 a configuration that adds additional custom completions.</p>
+</dd>
+<dt id="user-content-closepercentbrace">
+  <code><strong><a href="#user-content-closepercentbrace">closePercentBrace</a></strong>: <a href="https://codemirror.net/docs/ref#state.Extension">Extension</a></code></dt>
+
+<dd><p>This extension will, when the user types a <code>%</code> between two
+matching braces, insert two percent signs instead and put the
+cursor between them.</p>
 </dd>
 </dl>

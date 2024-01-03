@@ -4,8 +4,8 @@ import {html} from "@codemirror/lang-html"
 import {styleTags, tags as t} from "@lezer/highlight"
 import {parseMixed} from "@lezer/common"
 import {parser} from "./liquid.grammar"
-import {liquidCompletionSource, LiquidCompletionConfig} from "./complete"
-export {liquidCompletionSource, LiquidCompletionConfig}
+import {liquidCompletionSource, LiquidCompletionConfig, closePercentBrace} from "./complete"
+export {liquidCompletionSource, LiquidCompletionConfig, closePercentBrace}
 
 function directiveIndent(except: RegExp) {
   return (context: TreeIndentContext) => {
@@ -88,6 +88,7 @@ export function liquid(config: LiquidCompletionConfig & {
   return new LanguageSupport(lang, [
     base.support,
     lang.data.of({autocomplete: liquidCompletionSource(config)}),
-    base.language.data.of({closeBrackets: {brackets: ["{"]}})
+    base.language.data.of({closeBrackets: {brackets: ["{"]}}),
+    closePercentBrace
   ])
 }
