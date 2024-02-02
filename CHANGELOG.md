@@ -1,3 +1,9 @@
+## 6.2.1 (2024-02-02)
+
+### Bug fixes
+
+Explicitly declare dependencies on @codemirror/state, /view, and /autocomplete.
+
 ## 6.2.0 (2024-01-03)
 
 ### New features
