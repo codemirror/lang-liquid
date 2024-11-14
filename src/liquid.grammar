@@ -30,7 +30,7 @@ directive {
   echoTag |
   renderTag |
   kwTag1<"include"> |
-  kwTag1<"assign"> | 
+  assignTag |
   CaptureDirective { kwTag1<"capture"> element* kwTagEnd<"endcapture"> } |
   kwTag1<"increment"> |
   kwTag1<"decrement"> |
@@ -58,17 +58,19 @@ directive {
     NumberLiteral
   }
 
-  Interpolation { interpolationStart expression (Filter*) interpolationEnd }
+  Interpolation { interpolationStart expression Filter* interpolationEnd }
 
-  Tag { tagStart (TagName expression?)? tagEnd }
+  Tag { tagStart (TagName expression? Filter*)? tagEnd }
 
   forTag[@name=Tag] { tagStart tagName<"for"> VariableName kw<"in"> expression Parameter* tagEnd }
   tablerowTag[@name=Tag] { tagStart tagName<"tablerow"> VariableName kw<"in"> expression Parameter* tagEnd }
 
   cycleTag[@name=Tag] { tagStart tagName<"cycle"> (StringLiteral ":")? StringLiteral ("," StringLiteral)* tagEnd }
 
-  echoTag[@name=Tag] { tagStart tagName<"echo"> expression (Filter*) tagEnd }
+  echoTag[@name=Tag] { tagStart tagName<"echo"> expression Filter* tagEnd }
   
+  assignTag[@name=Tag] { tagStart tagName<"assign"> expression Filter* tagEnd }
+
   renderTag[@name=Tag] { tagStart tagName<"render"> expression RenderParameter* tagEnd }
 
   liquidTag[@name=Tag] { tagStart tagName<"liquid"> liquidDirective* tagEnd }
@@ -100,10 +102,10 @@ directive {
     kwStat<"break"> |
     kwStat<"continue"> |
     Tag { kw<"cycle"> (StringLiteral ":")? StringLiteral ("," StringLiteral)* } |
-    Tag { kw<"echo"> expression (Filter*) } |
+    Tag { kw<"echo"> expression Filter* } |
     Tag { kw<"render"> expression RenderParameter { "," VariableName ":" expression }* } |
     kwStat1<"include"> |
-    kwStat1<"assign"> | 
+    Tag { kw<"assign"> expression Filter* } |
     CaptureDirective { kwStat1<"capture"> liquidDirective* kwStatEnd<"endcapture"> } |
     kwStat1<"increment"> |
     kwStat1<"decrement">

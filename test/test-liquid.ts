@@ -197,4 +197,7 @@ Template(Tag(liquid,
       Tag(assign,AssignmentExpression(VariableName,AssignOp,StringLiteral)),
     EndTag(endcase))))
 `)
+
+  test("Assign with filter", `{% assign zeroFillSize = zeroFill | size %}`,
+       `Template(Tag(assign,AssignmentExpression(VariableName,AssignOp,VariableName),Filter(FilterName)))`)
 })
