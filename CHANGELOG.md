@@ -1,3 +1,9 @@
+## 6.2.2 (2024-11-14)
+
+### Bug fixes
+
+Support filter syntax after assign directives.
+
 ## 6.2.1 (2024-02-02)
 
 ### Bug fixes
