@@ -1,3 +1,9 @@
+## 6.2.3 (2025-03-21)
+
+### Bug fixes
+
+Properly terminate inline comments at `}}` and `%}` tokens.
+
 ## 6.2.2 (2024-11-14)
 
 ### Bug fixes
