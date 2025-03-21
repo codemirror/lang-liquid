@@ -137,6 +137,10 @@ directive {
   commentText
 }
 
+@external tokens inlineComment from "./tokens" {
+  InlineComment
+}
+
 @tokens {
   letter { @asciiLetter | "_" | $[\u00C0-\u{EFFFF}] }
   identifier { letter (letter | @digit)* }
@@ -154,8 +158,6 @@ directive {
   }
 
   space { (" " | "\t" | "\r" | "\n")+ }
-
-  InlineComment { "#" ![\n]* }
 
   interpolationEnd[@name="}}", openedBy="{{"] { "}}" }
   tagEnd[@name="%}", openedBy="{%"] { "-"? "%}" }
