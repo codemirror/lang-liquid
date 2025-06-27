@@ -143,8 +143,8 @@ directive {
 
 @tokens {
   letter { @asciiLetter | "_" | $[\u00C0-\u{EFFFF}] }
-  identifier { letter (letter | @digit)* }
-  PropertyName { letter (letter | @digit | "-")* }
+  identifier { letter (letter | @digit | "-")* }
+  PropertyName { identifier }
   TagName { identifier }
 
   StringLiteral {
