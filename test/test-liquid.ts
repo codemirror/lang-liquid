@@ -173,7 +173,7 @@ Template(
 
   test("Liquid", `
 {% liquid
-case section.blocks.size
+case section.blocks-a.size
 when 1
   assign column_size = ''
 when 2
