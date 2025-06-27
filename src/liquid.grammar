@@ -103,7 +103,7 @@ directive {
     kwStat<"continue"> |
     Tag { kw<"cycle"> (StringLiteral ":")? StringLiteral ("," StringLiteral)* } |
     Tag { kw<"echo"> expression Filter* } |
-    Tag { kw<"render"> expression RenderParameter { "," VariableName ":" expression }* } |
+    Tag { kw<"render"> expression (!eager RenderParameter)* } |
     kwStat1<"include"> |
     Tag { kw<"assign"> expression Filter* } |
     CaptureDirective { kwStat1<"capture"> liquidDirective* kwStatEnd<"endcapture"> } |

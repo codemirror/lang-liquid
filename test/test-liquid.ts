@@ -176,6 +176,7 @@ Template(
 case section.blocks-a.size
 when 1
   assign column_size = ''
+  render "footer.liquid" with "dark"
 when 2
   assign column_size = 'one-half'
 when 3
@@ -189,6 +190,7 @@ Template(Tag(liquid,
     Tag(case,MemberExpression(MemberExpression(VariableName,".",PropertyName),".",PropertyName)),
     Tag(when,NumberLiteral),
       Tag(assign,AssignmentExpression(VariableName,AssignOp,StringLiteral)),
+      Tag(render,StringLiteral,RenderParameter(with,StringLiteral)),
     Tag(when,NumberLiteral),
       Tag(assign,AssignmentExpression(VariableName,AssignOp,StringLiteral)),
     Tag(when,NumberLiteral),
