@@ -20,7 +20,7 @@ const Tags = completions(
   "else endif unless endunless case endcase for endfor tablerow endtablerow break continue " +
   "assign capture endcapture render include", "keyword")
 
-const Expressions = completions("empty forloop tablerowloop in with as contains", "keyword")
+const Expressions = completions("empty forloop tablerowloop in with as", "keyword")
 
 const forloop = completions("first index index0 last length rindex", "property")
 const tablerowloop = completions("col col0 col_first col_last first index index0 last length rindex rindex0 row", "property")
