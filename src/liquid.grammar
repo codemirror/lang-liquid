@@ -1,4 +1,5 @@
 @precedence {
+  member
   compare @left
   contains @left
   logic @right
@@ -44,7 +45,7 @@ directive {
   
   expression[@isGroup=Expression] {
     VariableName |
-    MemberExpression { expression "." PropertyName } |
+    MemberExpression { expression !member "." PropertyName } |
     BinaryExpression {
       expression !contains kw<"contains"> expression |
       expression !compare CompareOp expression |
