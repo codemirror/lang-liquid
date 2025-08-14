@@ -12,8 +12,14 @@ describe("Liquid parsing", () => {
   test("Interpolation", `One {{ page.title }}`,
        "Template(Text, Interpolation(MemberExpression(VariableName, PropertyName)))")
 
-  test("Filters", `{{ "adam!" | capitalize | prepend: "Hello " }}`,
-       "Template(Interpolation(StringLiteral, Filter(FilterName), Filter(FilterName, StringLiteral)))")
+  test("Filters", `{{ "adam!" | capitalize | prepend: "Hello " | replace: "Hello ", "Hi " }}`, `
+Template(
+  Interpolation(
+    StringLiteral,
+    Filter(FilterName),
+    Filter(FilterName, StringLiteral),
+    Filter(FilterName, StringLiteral, StringLiteral)))
+`)
 
   test("Unknown tag", "{% blah 88 %}",
        "Template(Tag(TagName, NumberLiteral))")
