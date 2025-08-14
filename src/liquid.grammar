@@ -39,7 +39,7 @@ directive {
 }
 
 @skip { space | InlineComment } {
-  Filter { "|" FilterName { identifier } (":" expression)? }
+  Filter { "|" FilterName { identifier } (":" expression ("," expression)*)? }
 
   VariableName { identifier }
   
