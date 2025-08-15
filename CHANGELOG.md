@@ -1,3 +1,17 @@
+## 6.3.0 (2025-08-15)
+
+### Bug fixes
+
+Support hyphens in property name tokens.
+
+Allow `with` and `for` to appear after `render` tags in liquid blocks.
+
+Fix member expressions being parsed with too low a precedence.
+
+### New features
+
+Support filters with multiple parameters.
+
 ## 6.2.3 (2025-03-21)
 
 ### Bug fixes
