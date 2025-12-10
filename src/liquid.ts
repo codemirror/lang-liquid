@@ -38,6 +38,7 @@ const tagLanguage = LRLanguage.define({
         InlineComment: t.lineComment,
         CommentText: t.blockComment,
         "{% %} {{ }}": t.brace,
+        "[ ]": t.bracket,
         "( )": t.paren,
         ".": t.derefOperator,
         ", .. : |": t.punctuation

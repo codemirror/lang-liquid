@@ -46,6 +46,7 @@ directive {
   expression[@isGroup=Expression] {
     VariableName |
     MemberExpression { expression !member "." PropertyName } |
+    SubscriptExpression { expression !member "[" expression "]" } |
     BinaryExpression {
       expression !contains kw<"contains"> expression |
       expression !compare CompareOp expression |
