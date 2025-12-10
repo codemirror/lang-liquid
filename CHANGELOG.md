@@ -1,3 +1,9 @@
+## 6.3.1 (2025-12-10)
+
+### Bug fixes
+
+Properly parse bracketed subscript expressions.
+
 ## 6.3.0 (2025-08-15)
 
 ### Bug fixes
