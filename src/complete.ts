@@ -85,6 +85,10 @@ function resolveProperties(state: EditorState, node: SyntaxNode, context: Comple
       let name = obj.getChild("PropertyName")
       if (name) path.unshift(state.sliceDoc(name.from, name.to))
       node = obj
+    } else if (obj.name == "SubscriptExpression") {
+      let expr = obj.getChildren("Expression")[1]
+      path.unshift(expr?.name == "StringLiteral" ? state.sliceDoc(expr.from + 1, expr.to - 1) : "[]")
+      node = obj
     } else {
       return []
     }
