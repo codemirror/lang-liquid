@@ -83,9 +83,10 @@ directive {
 
   endrawTag[@name=EndTag] { endrawTagStart tagName<"endraw"> tagEnd }
 
-  RenderParameter { "," VariableName ":" expression | (kw<"with"> | kw<"for">) expression (kw<"as"> VariableName)? }
+  RenderParameter { "," VariableName ":" expression | (kwx<"with"> | kwx<"for">) expression (kwx<"as"> VariableName)? }
 
   kw<word> { @specialize[@name={word}]<identifier, word> }
+  kwx<word> { @extend[@name={word}]<identifier, word> }
   tagName<word> { @specialize[@name={word}]<TagName, word> }
   kwTag[@name=Tag]<word> { tagStart tagName<word> tagEnd }
   kwTag1[@name=Tag]<word> { tagStart tagName<word> expression tagEnd }
@@ -93,33 +94,34 @@ directive {
   kwTagEnd[@name=EndTag]<word> { endTagStart tagName<word> tagEnd }
 
   liquidDirective {
-    IfDirective { kwStat1<"if"> liquidDirective* kwStatEnd<"endif"> } |
-    UnlessDirective { kwStat1<"unless"> liquidDirective* kwStatEnd<"endunless"> } |
-    kwStat1<"elsif"> |
-    kwStat<"else"> |
-    CaseDirective { kwStat1<"case"> liquidDirective* kwStatEnd<"endcase"> } |
-    kwStatN<"when"> |
-    ForDirective { forStat liquidDirective* kwStatEnd<"endfor"> } |
-    TableDirective { tablerowStat liquidDirective* kwStatEnd<"endtablerow"> } |
-    kwStat<"break"> |
+    IfDirective { kwxStat1<"if"> liquidDirective* kwxStatEnd<"endif"> } |
+    UnlessDirective { kwxStat1<"unless"> liquidDirective* kwxStatEnd<"endunless"> } |
+    kwxStat1<"elsif"> |
+    kwxStat<"else"> |
+    CaseDirective { kwxStat1<"case"> liquidDirective* kwxStatEnd<"endcase"> } |
+    kwxStatN<"when"> |
+    ForDirective { forStat liquidDirective* kwxStatEnd<"endfor"> } |
+    TableDirective { tablerowStat liquidDirective* kwxStatEnd<"endtablerow"> } |
+    kwxStat<"break"> |
     kwStat<"continue"> |
-    Tag { kw<"cycle"> (StringLiteral ":")? StringLiteral ("," StringLiteral)* } |
-    Tag { kw<"echo"> expression Filter* } |
-    Tag { kw<"render"> expression (!eager RenderParameter)* } |
-    kwStat1<"include"> |
-    Tag { kw<"assign"> expression Filter* } |
-    CaptureDirective { kwStat1<"capture"> liquidDirective* kwStatEnd<"endcapture"> } |
-    kwStat1<"increment"> |
-    kwStat1<"decrement">
+    Tag { kwx<"cycle"> (StringLiteral ":")? StringLiteral ("," StringLiteral)* } |
+    Tag { kwx<"echo"> expression Filter* } |
+    Tag { kwx<"render"> expression (!eager RenderParameter)* } |
+    kwxStat1<"include"> |
+    Tag { kwx<"assign"> expression Filter* } |
+    CaptureDirective { kwxStat1<"capture"> liquidDirective* kwxStatEnd<"endcapture"> } |
+    kwxStat1<"increment"> |
+    kwxStat1<"decrement">
   }
 
-  forStat[@name=Tag] { kw<"for"> VariableName kw<"in"> expression Parameter* }
-  tablerowStat[@name=Tag] { kw<"tablerow"> VariableName kw<"in"> expression Parameter* }
+  forStat[@name=Tag] { kwx<"for"> VariableName kw<"in"> expression Parameter* }
+  tablerowStat[@name=Tag] { kwx<"tablerow"> VariableName kw<"in"> expression Parameter* }
 
   kwStat[@name=Tag]<word> { kw<word> }
-  kwStat1[@name=Tag]<word> { kw<word> expression }
-  kwStatN[@name=Tag]<word> { kw<word> expression ("," expression)* }
-  kwStatEnd[@name=EndTag]<word> { kw<word> }
+  kwxStat[@name=Tag]<word> { kwx<word> }
+  kwxStat1[@name=Tag]<word> { kwx<word> expression }
+  kwxStatN[@name=Tag]<word> { kwx<word> expression ("," expression)* }
+  kwxStatEnd[@name=EndTag]<word> { kwx<word> }
 }
 
 @external tokens base from "./tokens" {

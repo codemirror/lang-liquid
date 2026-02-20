@@ -208,4 +208,26 @@ Template(Tag(liquid,
 
   test("Assign with filter", `{% assign zeroFillSize = zeroFill | size %}`,
        `Template(Tag(assign,AssignmentExpression(VariableName,AssignOp,VariableName),Filter(FilterName)))`)
+
+  test("Keyword as variable in interpolation", `{{ case.id }}`,
+       "Template(Interpolation(MemberExpression(VariableName, PropertyName)))")
+
+  test("Keyword as variable in tag", `{% if case.id == "x" %}{% endif %}`, `
+Template(IfDirective(
+  Tag(if, BinaryExpression(MemberExpression(VariableName, PropertyName), CompareOp, StringLiteral)),
+  EndTag(endif)))
+`)
+
+  test("Keyword as variable in liquid tag", `{% liquid\necho case.id %}`, `
+Template(Tag(liquid, Tag(echo, MemberExpression(VariableName, PropertyName))))
+`)
+
+  test("Multiple keywords as variables", `{{ for.x }} {{ assign.y }} {{ render.z }}`, `
+Template(
+  Interpolation(MemberExpression(VariableName, PropertyName)),
+  Text,
+  Interpolation(MemberExpression(VariableName, PropertyName)),
+  Text,
+  Interpolation(MemberExpression(VariableName, PropertyName)))
+`)
 })
