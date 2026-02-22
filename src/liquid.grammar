@@ -55,7 +55,7 @@ directive {
     AssignmentExpression { VariableName !assign AssignOp expression } |
     RangeExpression { "(" expression ".." expression ")" } |
     @specialize[@name=BooleanLiteral]<identifier, "true" | "false"> |
-    kw<"empty"> | kw<"forloop"> | kw<"tablerowloop"> | kw<"continue"> |
+    kw<"empty"> | kwx<"forloop"> | kwx<"tablerowloop"> | kwx<"continue"> |
     StringLiteral |
     NumberLiteral
   }
@@ -64,8 +64,8 @@ directive {
 
   Tag { tagStart (TagName expression? Filter*)? tagEnd }
 
-  forTag[@name=Tag] { tagStart tagName<"for"> VariableName kw<"in"> expression Parameter* tagEnd }
-  tablerowTag[@name=Tag] { tagStart tagName<"tablerow"> VariableName kw<"in"> expression Parameter* tagEnd }
+  forTag[@name=Tag] { tagStart tagName<"for"> VariableName kwx<"in"> expression Parameter* tagEnd }
+  tablerowTag[@name=Tag] { tagStart tagName<"tablerow"> VariableName kwx<"in"> expression Parameter* tagEnd }
 
   cycleTag[@name=Tag] { tagStart tagName<"cycle"> (StringLiteral ":")? StringLiteral ("," StringLiteral)* tagEnd }
 
@@ -103,7 +103,7 @@ directive {
     ForDirective { forStat liquidDirective* kwxStatEnd<"endfor"> } |
     TableDirective { tablerowStat liquidDirective* kwxStatEnd<"endtablerow"> } |
     kwxStat<"break"> |
-    kwStat<"continue"> |
+    kwxStat<"continue"> |
     Tag { kwx<"cycle"> (StringLiteral ":")? StringLiteral ("," StringLiteral)* } |
     Tag { kwx<"echo"> expression Filter* } |
     Tag { kwx<"render"> expression (!eager RenderParameter)* } |
@@ -114,10 +114,9 @@ directive {
     kwxStat1<"decrement">
   }
 
-  forStat[@name=Tag] { kwx<"for"> VariableName kw<"in"> expression Parameter* }
-  tablerowStat[@name=Tag] { kwx<"tablerow"> VariableName kw<"in"> expression Parameter* }
+  forStat[@name=Tag] { kwx<"for"> VariableName kwx<"in"> expression Parameter* }
+  tablerowStat[@name=Tag] { kwx<"tablerow"> VariableName kwx<"in"> expression Parameter* }
 
-  kwStat[@name=Tag]<word> { kw<word> }
   kwxStat[@name=Tag]<word> { kwx<word> }
   kwxStat1[@name=Tag]<word> { kwx<word> expression }
   kwxStatN[@name=Tag]<word> { kwx<word> expression ("," expression)* }

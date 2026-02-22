@@ -96,7 +96,7 @@ Template(CaseDirective(
 {% endfor %}
 `, `
 Template(ForDirective(
-  Tag(for,VariableName,in,VariableName,Parameter(ParameterName,":",NumberLiteral),Parameter(ParameterName,":",continue)),
+  Tag(for,VariableName,in,VariableName,Parameter(ParameterName,":",NumberLiteral),Parameter(ParameterName,":",VariableName)),
   Text, Interpolation(VariableName), Text,
   Tag(break), Text,
   Tag(continue), Text,

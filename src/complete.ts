@@ -70,16 +70,16 @@ export type LiquidCompletionConfig = {
 
 function resolveProperties(state: EditorState, node: SyntaxNode, context: CompletionContext,
                            properties?: (path: readonly string[], state: EditorState, context: CompletionContext) => readonly Completion[]) {
-  let path = []
+  let path: string[] = []
   for (;;) {
     let obj = node.getChild("Expression")
     if (!obj) return []
-    if (obj.name == "forloop") {
-      return path.length ? [] : forloop
-    } else if (obj.name == "tablerowloop") {
-      return path.length ? [] : tablerowloop
-    } else if (obj.name == "VariableName") {
-      path.unshift(state.sliceDoc(obj.from, obj.to))
+    // These keywords use @extend, so the parser may produce either a keyword node or a VariableName
+    if (obj.name == "VariableName" || obj.name == "forloop" || obj.name == "tablerowloop") {
+      let text = state.sliceDoc(obj.from, obj.to)
+      if (text == "forloop") return path.length ? [] : forloop
+      if (text == "tablerowloop") return path.length ? [] : tablerowloop
+      path.unshift(text)
       break
     } else if (obj.name == "MemberExpression") {
       let name = obj.getChild("PropertyName")
