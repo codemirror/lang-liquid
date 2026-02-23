@@ -86,7 +86,7 @@ directive {
   RenderParameter { "," VariableName ":" expression | (kwx<"with"> | kwx<"for">) expression (kwx<"as"> VariableName)? }
 
   kw<word> { @specialize[@name={word}]<identifier, word> }
-  kwx<word> { @extend[@name={word}]<identifier, word> }
+  kwx[@dynamicPrecedence=1]<word> { @extend[@name={word}]<identifier, word> }
   tagName<word> { @specialize[@name={word}]<TagName, word> }
   kwTag[@name=Tag]<word> { tagStart tagName<word> tagEnd }
   kwTag1[@name=Tag]<word> { tagStart tagName<word> expression tagEnd }
