@@ -1,3 +1,11 @@
+## 6.3.2 (2026-02-23)
+
+### Bug fixes
+
+Traverse subscript expressions when building up a path for completion.
+
+Support using identifiers that are keywords as variables when not in a valid position for that keyword.
+
 ## 6.3.1 (2025-12-10)
 
 ### Bug fixes
