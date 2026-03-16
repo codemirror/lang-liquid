@@ -2,7 +2,7 @@
 
 # @codemirror/lang-liquid [![NPM version](https://img.shields.io/npm/v/@codemirror/lang-liquid.svg)](https://www.npmjs.org/package/@codemirror/lang-liquid)
 
-[ [**WEBSITE**](https://codemirror.net/) | [**ISSUES**](https://github.com/codemirror/dev/issues) | [**FORUM**](https://discuss.codemirror.net/c/next/) | [**CHANGELOG**](https://github.com/codemirror/lang-liquid/blob/main/CHANGELOG.md) ]
+[ [**WEBSITE**](https://codemirror.net/) | [**ISSUES**](https://github.com/codemirror/dev/issues) | [**FORUM**](https://discuss.codemirror.net//) | [**CHANGELOG**](https://github.com/codemirror/lang-liquid/blob/main/CHANGELOG.md) ]
 
 This package implements [Liquid
 template](https://shopify.github.io/liquid/) support for the
