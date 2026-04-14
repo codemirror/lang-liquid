@@ -41,6 +41,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/codemirror/lang-liquid.git"
+    "url": "git+https://code.haverbeke.berlin/codemirror/lang-liquid.git"
   }
 }
